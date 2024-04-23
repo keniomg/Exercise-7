@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LinqTask1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Criminal> criminals = new List<Criminal>()
+            {
+                new Criminal("Иванов", "Иван", "Иванович", true, 14.88, 54, "Русский"),
+                new Criminal("Петров", "Пётр", "Петрович", false, 12.34, 27, "Русский"),
+                new Criminal("Семёнов", "Семён", "Семёнович", true, 43.21, 45, "Русский"),
+                new Criminal("Нурсултанов", "Нурсултан", "Нурсултанович", true, 11.22, 33, "Казах"),
+                new Criminal("Джонов", "Джон", "Джонович", false, 44.88, 11, "Американец")
+            };
+        }
+    }
+
+    public class Criminal
+    {
+        public Criminal(string secondName, string name, string surname, bool isPrisoned, double height, double weight, string nationality)
+        {
+            SecondName = secondName;
+            Name = name;
+            Surname = surname;
+            IsPrisoned = isPrisoned;
+            Height = height;
+            Weight = weight;
+            Nationality = nationality;
+        }
+
+        public string SecondName { get; private set; }
+        public string Name { get; private set; }
+        public string Surname { get; private set; }
+        public bool IsPrisoned {  get; private set; }
+        public double Height { get; private set; }
+        public double Weight {  get; private set; }
+        public string Nationality { get; private set; }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Данные по преступнику:\n{SecondName} {Name} {Surname}\nРост - {Height}\nВес - {Weight}\nНациональность - {Nationality}\n");
+        }
+    }
+}
