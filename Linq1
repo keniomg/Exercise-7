@@ -10,14 +10,34 @@ namespace LinqTask1
     {
         static void Main(string[] args)
         {
-            List<Criminal> criminals = new List<Criminal>()
+            
+            
+        }
+    }
+
+    public class Database
+    {
+        private List<Criminal> _criminals;
+        public Database()
+        {
+            _criminals = new List<Criminal>()
             {
-                new Criminal("Иванов", "Иван", "Иванович", true, 14.88, 54, "Русский"),
-                new Criminal("Петров", "Пётр", "Петрович", false, 12.34, 27, "Русский"),
-                new Criminal("Семёнов", "Семён", "Семёнович", true, 43.21, 45, "Русский"),
+                new Criminal("Иванов", "Иван", "Иванович", true, 11.88, 54, "Русский"),
+                new Criminal("Петров", "Пётр", "Петрович", false, 12.34, 47, "Русский"),
+                new Criminal("Семёнов", "Семён", "Семёнович", true, 23.21, 55, "Русский"),
                 new Criminal("Нурсултанов", "Нурсултан", "Нурсултанович", true, 11.22, 33, "Казах"),
-                new Criminal("Джонов", "Джон", "Джонович", false, 44.88, 11, "Американец")
+                new Criminal("Джонов", "Джон", "Джонович", false, 24.88, 41, "Американец")
             };
+        }
+
+        public void ShowUnprisonedCriminals(List <Criminal> criminals)
+        {
+            var unprisonedCriminals = from Criminal criminal in criminals where criminal.IsPrisoned == false select criminal;
+
+            foreach (Criminal criminal in unprisonedCriminals)
+            {
+                criminal.ShowInfo();
+            }
         }
     }
 
