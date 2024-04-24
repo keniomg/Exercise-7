@@ -74,98 +74,69 @@ namespace LinqTask1
 
         private void SearchCriminalWithParameters()
         {
-            List<Criminal> searchedCriminals = GetListCriminalsWithParameters();
-            
-            if (searchedCriminals == null)
-            {
-                Console.WriteLine("Операция поиска прервана");
-                return;
-            }
-
-            Console.Clear();
-
-            if (searchedCriminals.Count == 0)
-            {
-                Console.WriteLine("Преступников с заданными параметрами не найдено");
-                return;
-            }
-
-            Console.WriteLine("По заданным параметрам найдены следующие преступники:\n\n");
-            ShowUnprisonedCriminals(searchedCriminals);
-        }
-
-        private List<Criminal> GetListCriminalsWithParameters()
-        {
-            List<Criminal> searchedCriminals = new List<Criminal>(_criminals.Count);
-
-            if (TryGetCriminalsParameters(out double lowerHeight, out double upperHeight, out double lowerWeight, out double upperWeight, out string nationality) == false)
-            {
-                return null;
-            }
-
-            for (int i = 0; i < _criminals.Count; i++)
-            {
-                if (_criminals[i].Height >= lowerHeight && _criminals[i].Height <= upperHeight && _criminals[i].Weight >= lowerWeight && _criminals[i].Weight <= upperWeight && _criminals[i].Nationality == nationality)
-                {
-                    searchedCriminals.Add((new Criminal(_criminals[i].SecondName, _criminals[i].Name, _criminals[i].Surname, _criminals[i].IsPrisoned, _criminals[i].Height, _criminals[i].Weight, _criminals[i].Nationality)));
-                }
-            }
-
-            return searchedCriminals;
-        }
-
-        private bool TryGetCriminalsParameters(out double lowerHeight, out double upperHeight, out double lowerWeight, out double upperWeight, out string nationality)
-        {
-            upperHeight = 0;
-            lowerWeight = 0;
-            upperWeight = 0;
-            nationality = null;
             Console.WriteLine("Введите нижнюю границу диапазона роста преступника (через запятую, если число не целое):");
             string userInput = Console.ReadLine();
 
-            if (TryReadDouble(userInput, out lowerHeight) == false || lowerHeight >= 0 == false)
+            if (TryReadDouble(userInput, out double lowerHeight) == false || lowerHeight >= 0 == false)
             {
                 Console.WriteLine("Число введено неверно");
-                return false;
+                return;
             }
 
             Console.WriteLine("Введите верхнюю границу диапазона роста преступника (через запятую, если число не целое):");
             userInput = Console.ReadLine();
 
-            if (TryReadDouble(userInput, out upperHeight) == false || upperHeight >= 0 == false)
+            if (TryReadDouble(userInput, out double upperHeight) == false || upperHeight >= 0 == false)
             {
                 Console.WriteLine("Число введено неверно");
-                return false;
+                return;
             }
 
             Console.WriteLine("Введите нижнюю границу диапазона веса преступника (через запятую, если число не целое):");
             userInput = Console.ReadLine();
 
-            if (TryReadDouble(userInput, out lowerWeight) == false || lowerWeight >= 0 == false)
+            if (TryReadDouble(userInput, out double lowerWeight) == false || lowerWeight >= 0 == false)
             {
                 Console.WriteLine("Число введено неверно");
-                return false;
+                return;
             }
 
             Console.WriteLine("Введите верхнюю границу диапазона веса преступника (через запятую, если число не целое):");
             userInput = Console.ReadLine();
 
-            if (TryReadDouble(userInput, out upperWeight) == false || upperWeight >= 0 == false)
+            if (TryReadDouble(userInput, out double upperWeight) == false || upperWeight >= 0 == false)
             {
                 Console.WriteLine("Число введено неверно");
-                return false;
+                return;
             }
 
             Console.WriteLine("Введите национальность преступника:");
             userInput = Console.ReadLine();
 
-            if (TryGetNationality(userInput, out nationality) == false)
+            if (TryGetNationality(userInput, out string nationality) == false)
             {
                 Console.WriteLine("Такой национальности нет в базе данных");
-                return false;
+                return;
             }
 
-            return true;
+            Console.Clear();
+            List<Criminal> criminals = _criminals.ToList();
+            List<Criminal> searchedCriminals = criminals.Where(criminal => criminal.Height >= lowerHeight
+            && criminal.Height <= upperHeight && criminal.Weight >= lowerWeight && criminal.Weight <= upperWeight
+            && criminal.Nationality == nationality && criminal.IsPrisoned == false).Select(criminal => criminal).ToList();
+
+            if (searchedCriminals.Count == 0)
+            {
+                Console.WriteLine("Не найдено преступников с заданными параметрами");
+                return;
+            }
+
+            Console.WriteLine("По заданным параметрам найдены следующие преступники:\n\n");
+
+            foreach (Criminal criminal in searchedCriminals)
+            {
+                criminal.ShowInfo();
+            }
         }
 
         private bool TryGetNationality(string userInput, out string nationality)
@@ -198,16 +169,6 @@ namespace LinqTask1
             }
 
             return true;
-        }
-
-        private void ShowUnprisonedCriminals(List <Criminal> criminals)
-        {
-            var unprisonedCriminals = from Criminal criminal in criminals where criminal.IsPrisoned == false select criminal;
-
-            foreach (Criminal criminal in unprisonedCriminals)
-            {
-                criminal.ShowInfo();
-            }
         }
     }
 
