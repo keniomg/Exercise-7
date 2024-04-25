@@ -1,0 +1,103 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LinqTask2
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Arstocka arstocka = new Arstocka();
+            arstocka.ShowPrisonersInfo(arstocka.GetPrisonersList());
+            arstocka.Amnesty("антиправительственное");
+            arstocka.ShowPrisonersInfo(arstocka.GetPrisonersList());
+        }
+    }
+
+    public class Arstocka
+    {
+        private List<Prisoner> _prisoners;
+
+        public Arstocka()
+        {
+            _prisoners= new List<Prisoner>()
+            {
+                new Prisoner("Иванов", "Иван", "Иванович", "украл пирожок"),
+                new Prisoner("Петров", "Пётр", "Петрович", "ездил на автобусе зайцем"),
+                new Prisoner("Семёнов", "Семён", "Семёнович", "репостил мемы"),
+                new Prisoner("Нурсултанов", "Нурсултан", "Нурсултанович", "антиправительственное"),
+                new Prisoner("Васильев", "Василий", "Васильевич", "не занёс рубль в магазин"),
+                new Prisoner("Игнатенко", "Игнат", "Игнатьевич", "антиправительственное"),
+                new Prisoner("Жмышенко", "Валерий", "Альбертович", "телефонное хулиганство"),
+                new Prisoner("Шмурдяк", "Анатолий", "Григорьевич", "антиправительственное")
+            };
+        }
+
+        public void Amnesty(string amnestiableCrime)
+        {
+            Console.WriteLine("Произошла амнистия!");
+            List<Prisoner> prisonersAfterAmnesty = _prisoners.Where(prisoner => prisoner.GetCrime() != amnestiableCrime).ToList();
+            _prisoners = prisonersAfterAmnesty;
+        }
+
+        public void ShowPrisonersInfo(List<Prisoner> prisoners)
+        {
+            Console.WriteLine("Список заключенных:\n");
+
+            foreach (Prisoner prisoner in prisoners)
+                prisoner.ShowInfo();
+        }
+
+        public List<Prisoner> GetPrisonersList()
+        {
+            List<Prisoner> prisoners = _prisoners.ToList();
+            return _prisoners;
+        }
+    }
+
+    public class Prisoner
+    {
+        private string _secondname;
+        private string _name;
+        private string _surname;
+        private string _crime;
+
+        public Prisoner(string secondname, string name, string surname, string crime)
+        {
+            _secondname = secondname;
+            _name = name;
+            _surname = surname;
+            _crime = crime;
+        }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine($"{_secondname} {_name} {_surname}\n{_crime}\n");
+        }
+
+        public string GetSecondname()
+        {
+            string secondname = _secondname;
+            return secondname;
+        }
+
+        public string GetName()
+        {
+            string name = _name;
+            return name;
+        }
+
+        public string GetSurname()
+        {
+            string surname = _surname;
+            return surname;
+        }
+
+        public string GetCrime()
+        {
+            string crime = _crime;
+            return crime;
+        }
+    }
+}
