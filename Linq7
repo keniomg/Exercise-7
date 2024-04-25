@@ -43,8 +43,8 @@ namespace LinqTask7
         public void UniteSoldiersListsByFirstSecondnameLetter()
         {
             string unifyingStartsLetters = "Б";
-            SecondSoldiersList = SecondSoldiersList.Union(FirstSoldiersList.Where(soldier => soldier.Secondname.ToUpper().StartsWith(unifyingStartsLetters))).ToList();
-            FirstSoldiersList = FirstSoldiersList.Where(soldier => soldier.Secondname.StartsWith(unifyingStartsLetters) == false).Select(soldier => soldier).ToList();
+            SecondSoldiersList = SecondSoldiersList.Union(CompareSecondnameAndUnifyingStartsLetters(FirstSoldiersList, unifyingStartsLetters, true)).ToList();
+            FirstSoldiersList = CompareSecondnameAndUnifyingStartsLetters(FirstSoldiersList, unifyingStartsLetters, false);
         }
 
         public void ShowSoldiersSecondnames(List<Soldier> soldiersList)
@@ -53,6 +53,11 @@ namespace LinqTask7
 
             foreach (Soldier soldier in soldiersList)
                 Console.WriteLine($"Фамилия: {soldier.Secondname}\n");
+        }
+
+        private List<Soldier> CompareSecondnameAndUnifyingStartsLetters(List<Soldier> soldiersList, string unifyingStartsLetters, bool requiredCompareResult)
+        {
+            return soldiersList.Where(soldier => soldier.Secondname.ToUpper().StartsWith(unifyingStartsLetters) == requiredCompareResult).ToList();
         }
     }
 
