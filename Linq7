@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LinqTask7
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            MilitaryUnit militaryUnit = new MilitaryUnit();
+            militaryUnit.ShowSoldiersSecondnames(militaryUnit.FirstSoldiersList);
+            militaryUnit.ShowSoldiersSecondnames(militaryUnit.SecondSoldiersList);
+            militaryUnit.UniteSoldiersListsByFirstSecondnameLetter(out List<Soldier> unitedSoldiersList);
+            militaryUnit.ShowSoldiersSecondnames(unitedSoldiersList);
+        }
+    }
+
+    public class MilitaryUnit
+    {
+        public MilitaryUnit()
+        {
+            FirstSoldiersList = new List<Soldier>()
+            {
+                new Soldier("Биванов"),
+                new Soldier("Петров"),
+                new Soldier("Бемёнов"),
+                new Soldier("Нурсултанов"),
+            };
+            SecondSoldiersList = new List<Soldier>()
+            {
+                new Soldier("Васильев"),
+                new Soldier("Игнатенко"),
+                new Soldier("Жмышенко"),
+                new Soldier("Шмурдяк")
+            };
+        }
+
+        public List<Soldier> FirstSoldiersList { get; private set; }
+        public List<Soldier> SecondSoldiersList { get; private set; }
+
+        public void UniteSoldiersListsByFirstSecondnameLetter(out List<Soldier> unitedSoldiersList)
+        {
+            string unifyingStartsLetters = "Б";
+            unitedSoldiersList = SecondSoldiersList.Union(FirstSoldiersList.Where(soldier => soldier.Secondname.ToUpper().StartsWith(unifyingStartsLetters))).ToList();
+        }
+
+        public void ShowSoldiersSecondnames(List<Soldier> soldiersList)
+        {
+            Console.WriteLine("\nСписок солдат по фамилиям:\n\n");
+
+            foreach (Soldier soldier in soldiersList)
+                Console.WriteLine($"Фамилия: {soldier.Secondname}\n");
+        }
+    }
+
+    public class Soldier
+    {
+        public Soldier(string secondname)
+        {
+            Secondname = secondname;
+        }
+
+        public string Secondname { get; private set; }
+    }
+}
