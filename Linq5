@@ -1,0 +1,115 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LinqTask5
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Stock stock = new Stock(2024);
+            stock.Administrate();
+        }
+    }
+
+    public class Stock
+    {
+        private List<Stew> _stewList;
+        private int _currentYear;
+
+        public Stock(int currentYear)
+        {
+            _stewList = new List<Stew>()
+            {
+                new Stew("Коровка", 2022, 2026),
+                new Stew("Наша", 2020, 2024),
+                new Stew("Наша", 2021, 2025),
+                new Stew("Коровка", 2024, 2028),
+                new Stew("Про запас", 2023, 2027),
+                new Stew("Коровка", 2022, 2026),
+                new Stew("Про запас", 2018, 2022),
+                new Stew("Про запас", 2022, 2026),
+                new Stew("Наша", 2019, 2023)
+            };
+            _currentYear = currentYear;
+        }
+
+        public void Administrate()
+        {
+            const string CommandShowOverdueStew = "1";
+            const string CommandExit = "2";
+
+            bool isContinue = true;
+
+            while (isContinue)
+            {
+                Console.WriteLine($"Вы можете выбрать одну из следующих команд:" +
+                    $"\n{CommandShowOverdueStew} - показать просроченные продукты" +
+                    $"\n{CommandExit} - выйти из программы\n");
+                string userInput = Console.ReadLine();
+                Console.Clear();
+
+                switch (userInput)
+                {
+                    case CommandShowOverdueStew:
+                        ShowOverdueStew();
+                        break;
+
+                    case CommandExit:
+                        isContinue = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Введена неверная команда");
+                        break;
+                }
+
+                if (isContinue)
+                {
+                    Console.WriteLine("Для продолжения нажмите любую клавишу");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+
+            Console.WriteLine("Вы вышли из программы");
+        }
+
+        private void ShowOverdueStew()
+        {
+            List<Stew> sortedStewList = _stewList.Where(stew => stew.ExpirationDate <= _currentYear).ToList();
+
+            if (sortedStewList.Count == 0)
+            {
+                Console.WriteLine("Просроченных продуктов нет");
+            }
+
+            Console.WriteLine("На данный момент просрочены следующие продукты:\n");
+
+            foreach (Stew stew in sortedStewList)
+            {
+                stew.ShowInfo();
+            }
+        }
+    }
+
+    public class Stew
+    {
+        public Stew(string name, int productionDate, int expirationDate)
+        {
+            Name = name;
+            ProductionDate = productionDate;
+            ExpirationDate = expirationDate;
+        }
+
+        public string Name { get; private set; }
+        public int ProductionDate { get; private set; }
+        public int ExpirationDate { get; private set; }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Тушенка '{Name}'\nДата выпуска/Годен до: {ProductionDate}/{ExpirationDate}\n");
+        }
+    }
+}
