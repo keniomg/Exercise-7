@@ -82,6 +82,10 @@ namespace LinqTask3
                     case CommandExit:
                         isContinue = false;
                         break;
+
+                    default:
+                        Console.WriteLine("Введена неверная команда");
+                        break;
                 }
 
                 if (isContinue)
