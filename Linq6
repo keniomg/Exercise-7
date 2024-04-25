@@ -1,0 +1,101 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LinqTask6
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            MilitaryUnit militaryUnit = new MilitaryUnit();
+            militaryUnit.Administrate();
+        }
+    }
+
+    public class MilitaryUnit
+    {
+        private List<Soldier> _soldiersList;
+
+        public MilitaryUnit()
+        {
+            _soldiersList = new List<Soldier>()
+            {
+                new Soldier("Иванов", "Пистолет", "Рядовой", 1),
+                new Soldier("Петров", "Нож", "Сержант", 3),
+                new Soldier("Семёнов", "Вилка", "Младший лейтенант", 3),
+                new Soldier("Нурсултанов", "Банан", "Старший лейтенант", 7),
+                new Soldier("Васильев", "Заточка", "Рядовой", 1),
+                new Soldier("Игнатенко", "Гранатомет", "Младший лейтенант", 4),
+                new Soldier("Жмышенко", "Ложка", "Генерал", 54),
+                new Soldier("Шмурдяк", "Ножка", "Рядовой", 8)
+            };
+        }
+
+        public void Administrate()
+        {
+            const string CommandShowSoldiersNameAndRank = "1";
+            const string CommandExit = "2";
+
+            bool isContinue = true;
+
+            while (isContinue)
+            {
+                Console.WriteLine($"Вы можете выбрать одну из следующих команд:" +
+                    $"\n{CommandShowSoldiersNameAndRank} - показать просроченные продукты" +
+                    $"\n{CommandExit} - выйти из программы\n");
+                string userInput = Console.ReadLine();
+                Console.Clear();
+
+                switch (userInput)
+                {
+                    case CommandShowSoldiersNameAndRank:
+                        ShowSoldiersNameAndRank();
+                        break;
+
+                    case CommandExit:
+                        isContinue = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Введена неверная команда");
+                        break;
+                }
+
+                if (isContinue)
+                {
+                    Console.WriteLine("Для продолжения нажмите любую клавишу");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+
+            Console.WriteLine("Вы вышли из программы");
+        }
+
+        private void ShowSoldiersNameAndRank()
+        {
+            var nameAndRankSoldiersList = _soldiersList.Select(soldier => new { Name = soldier.Name, Rank = soldier.Rank });
+            Console.WriteLine("Список солдат по имени и званию:\n\n");
+
+            foreach (var soldier in nameAndRankSoldiersList)
+                Console.WriteLine($"Имя: {soldier.Name}, Звание: {soldier.Rank}\n");
+        }
+    }
+
+    public class Soldier
+    {
+        public Soldier(string name, string arming, string rank, int serviceTime)
+        {
+            Name = name;
+            Arming = arming;
+            Rank = rank;
+            ServiceTime = serviceTime;
+        }
+
+        public string Name {get; private set; }
+        public string Arming {get; private set; }
+        public string Rank {get; private set; }
+        public int ServiceTime {get; private set; }
+    }
+}
