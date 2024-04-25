@@ -81,22 +81,22 @@ namespace LinqTask4
             Console.WriteLine("Вы вышли из программы");
         }
 
-        public void ShowTopPlayersByLevel()
+        private void ShowTopPlayersByLevel()
         {
-            List<Player> players = _players.ToList();
-            List<Player> sortedPlayers = players.OrderByDescending(player => player.Level).Take(3).ToList();
+            List<Player> sortedPlayers = _players.OrderByDescending(player => player.Level).Take(3).ToList();
             Console.WriteLine("Топ 3 игрока по уровню:\n\n");
-
-            foreach (Player player in sortedPlayers)
-                player.ShowInfo();
+            ShowPlayersInfo(sortedPlayers);
         }
 
-        public void ShowTopPlayersByPower()
+        private void ShowTopPlayersByPower()
         {
-            List<Player> players = _players.ToList();
-            List<Player> sortedPlayers = players.OrderByDescending(player => player.Power).Take(3).ToList();
+            List<Player> sortedPlayers = _players.OrderByDescending(player => player.Power).Take(3).ToList();
             Console.WriteLine("Топ 3 игрока по силе:\n\n");
+            ShowPlayersInfo(sortedPlayers);
+        }
 
+        private void ShowPlayersInfo(List<Player> sortedPlayers)
+        {
             foreach (Player player in sortedPlayers)
                 player.ShowInfo();
         }
