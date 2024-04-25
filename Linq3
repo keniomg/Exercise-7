@@ -3,103 +3,152 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinqTask3;
 
 namespace LinqTask3
 {
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-        }
-    }
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			Hospital hospital = new Hospital();
+			hospital.Administrate();
+		}
+	}
 
-    public class Hospital
-    {
-        private List<Patient> patients;
+	public class Hospital
+	{
+		private List<Patient> _patients;
 
-        public Hospital()
-        {
-            patients = new List<Patient>()
-            {
-                new Patient("Иванов", "Иван", "Иванович", 34,"Грипп"),
-                new Patient("Петров", "Пётр", "Петрович", 27, "ОРВИ"),
-                new Patient("Семёнов", "Семён", "Семёнович", 19, "ОРВИ"),
-                new Patient("Нурсултанов", "Нурсултан", "Нурсултанович", 24, "Грипп"),
-                new Patient("Васильев", "Василий", "Васильевич", 30, "Гонорея"),
-                new Patient("Игнатенко", "Игнат", "Игнатьевич", 28, "Гонорея"),
-                new Patient("Жмышенко", "Валерий", "Альбертович", 54, "ОРВИ"),
-                new Patient("Шмурдяк", "Анатолий", "Григорьевич", 24, "Грипп"),
-                new Patient("Валерьев", "Валерий", "Валерьевич", 39, "Грипп"),
-                new Patient("Александров", "Александр", "Александрович", 32, "ОРВИ")
-            };
-        }
+		public Hospital()
+		{
+			_patients = new List<Patient>()
+			{
+				new Patient("Иванов", "Иван", "Иванович", 34,"Грипп"),
+				new Patient("Петров", "Пётр", "Петрович", 27, "ОРВИ"),
+				new Patient("Семёнов", "Семён", "Семёнович", 19, "ОРВИ"),
+				new Patient("Нурсултанов", "Нурсултан", "Нурсултанович", 24, "Грипп"),
+				new Patient("Васильев", "Василий", "Васильевич", 30, "Гонорея"),
+				new Patient("Игнатенко", "Игнат", "Игнатьевич", 28, "Гонорея"),
+				new Patient("Жмышенко", "Валерий", "Альбертович", 54, "ОРВИ"),
+				new Patient("Шмурдяк", "Анатолий", "Григорьевич", 24, "Грипп"),
+				new Patient("Валерьев", "Валерий", "Валерьевич", 39, "Грипп"),
+				new Patient("Александров", "Александр", "Александрович", 32, "ОРВИ")
+			};
+		}
 
-        public void Administrate()
-        {
-            const string CommandSortPatientsBySecondnameNameSurname = "1";
-            const string CommandSortPatientsByAge = "2";
-            const string CommandShowPatientsWithDisease = "3";
-            const string CommandExit = "4";
+		public void Administrate()
+		{
+			const string CommandSortPatientsBySecondname = "1";
+			const string CommandSortPatientsByName = "2";
+			const string CommandSortPatientsBySurname = "3";
+			const string CommandSortPatientsByAge = "4";
+			const string CommandShowPatientsWithDisease = "5";
+			const string CommandExit = "6";
 
-            bool isContinue = true;
+			bool isContinue = true;
 
-            while (isContinue)
-            {
-                Console.WriteLine("Вы можете выбрать одну из следующих команд:");
-            }
-        }
-    }
+			while (isContinue)
+			{
+				Console.WriteLine("Вы можете выбрать одну из следующих команд:");
+				string userInput = Console.ReadLine();
+				Console.Clear();
 
-    public class Patient
-    {
-        private string _secondname;
-        private string _name;
-        private string _surname;
-        private int _age;
-        private string _disease;
+				switch (userInput)
+				{
+					case CommandSortPatientsBySecondname:
+						SortPatientsBySecondName();
+						break;
 
-        public Patient(string secondname, string name, string surname, int age, string disease)
-        {
-            _secondname = secondname;
-            _name = name;
-            _surname = surname;
-            _age = age;
-            _disease = disease;
-        }
+					case CommandSortPatientsByName:
 
-        public void ShowInfo()
-        {
-            Console.WriteLine($"{_secondname} {_name} {_surname}\n{_age}\n{_disease}\n\n");
-        }
+						break;
 
-        public string GetSecondname()
-        {
-            string secondname = _secondname;
-            return secondname;
-        }
+					case CommandSortPatientsBySurname:
 
-        public string GetName()
-        {
-            string name = _name;
-            return name;
-        }
+						break;
 
-        public string GetSurname()
-        {
-            string surname = _surname;
-            return surname;
-        }
+					case CommandSortPatientsByAge:
 
-        public string GetAge()
-        {
-            string crime = _age;
-            return crime;
-        }
+						break;
 
-        public string GetDisease()
-        {
-            string disease = _disease;
-            return disease;
-        }
-    }
+					case CommandShowPatientsWithDisease:
+
+						break;
+
+					case CommandExit:
+
+						break;
+				}
+
+				Console.WriteLine("Для продолжения нажмите любую клавишу");
+				Console.ReadKey();
+				Console.Clear();
+			}
+
+			Console.WriteLine("Вы вышли из программы");
+		}
+
+		private void SortPatientsBySecondName()
+		{
+			List<Patient> patients = _patients.ToList();
+			List<Patient> sortedPatients = patients.OrderByDescending(patient => patient.GetSecondname()).ToList();
+
+			foreach (Patient patient in sortedPatients)
+				patient.ShowInfo();
+		}
+	}
+
+	public class Patient
+	{
+		private string _secondname;
+		private string _name;
+		private string _surname;
+		private int _age;
+		private string _disease;
+
+		public Patient(string secondname, string name, string surname, int age, string disease)
+		{
+			_secondname = secondname;
+			_name = name;
+			_surname = surname;
+			_age = age;
+			_disease = disease;
+		}
+
+		public void ShowInfo()
+		{
+			Console.WriteLine($"{_secondname} {_name} {_surname}\n{_age}\n{_disease}\n\n");
+		}
+
+		public string GetSecondname()
+		{
+			string secondname = _secondname;
+			return secondname;
+		}
+
+		public string GetName()
+		{
+			string name = _name;
+			return name;
+		}
+
+		public string GetSurname()
+		{
+			string surname = _surname;
+			return surname;
+		}
+
+		public int GetAge()
+		{
+			int age = _age;
+			return age;
+		}
+
+		public string GetDisease()
+		{
+			string disease = _disease;
+			return disease;
+		}
+	}
 }
