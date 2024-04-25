@@ -11,8 +11,9 @@ namespace LinqTask7
             MilitaryUnit militaryUnit = new MilitaryUnit();
             militaryUnit.ShowSoldiersSecondnames(militaryUnit.FirstSoldiersList);
             militaryUnit.ShowSoldiersSecondnames(militaryUnit.SecondSoldiersList);
-            militaryUnit.UniteSoldiersListsByFirstSecondnameLetter(out List<Soldier> unitedSoldiersList);
-            militaryUnit.ShowSoldiersSecondnames(unitedSoldiersList);
+            militaryUnit.UniteSoldiersListsByFirstSecondnameLetter();
+            militaryUnit.ShowSoldiersSecondnames(militaryUnit.FirstSoldiersList);
+            militaryUnit.ShowSoldiersSecondnames(militaryUnit.SecondSoldiersList);
         }
     }
 
@@ -39,10 +40,11 @@ namespace LinqTask7
         public List<Soldier> FirstSoldiersList { get; private set; }
         public List<Soldier> SecondSoldiersList { get; private set; }
 
-        public void UniteSoldiersListsByFirstSecondnameLetter(out List<Soldier> unitedSoldiersList)
+        public void UniteSoldiersListsByFirstSecondnameLetter()
         {
             string unifyingStartsLetters = "Б";
-            unitedSoldiersList = SecondSoldiersList.Union(FirstSoldiersList.Where(soldier => soldier.Secondname.ToUpper().StartsWith(unifyingStartsLetters))).ToList();
+            SecondSoldiersList = SecondSoldiersList.Union(FirstSoldiersList.Where(soldier => soldier.Secondname.ToUpper().StartsWith(unifyingStartsLetters))).ToList();
+            FirstSoldiersList = FirstSoldiersList.Where(soldier => soldier.Secondname.StartsWith(unifyingStartsLetters) == false).Select(soldier => soldier).ToList();
         }
 
         public void ShowSoldiersSecondnames(List<Soldier> soldiersList)
