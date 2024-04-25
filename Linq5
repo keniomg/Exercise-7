@@ -8,7 +8,7 @@ namespace LinqTask5
     {
         static void Main(string[] args)
         {
-            Stock stock = new Stock(2024);
+            Stock stock = new Stock(2028);
             stock.Administrate();
         }
     }
@@ -83,14 +83,13 @@ namespace LinqTask5
             if (sortedStewList.Count == 0)
             {
                 Console.WriteLine("Просроченных продуктов нет");
+                return;
             }
 
             Console.WriteLine("На данный момент просрочены следующие продукты:\n");
 
             foreach (Stew stew in sortedStewList)
-            {
                 stew.ShowInfo();
-            }
         }
     }
 
