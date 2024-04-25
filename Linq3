@@ -101,46 +101,33 @@ namespace LinqTask3
 
         private void SortPatientsBySecondName()
         {
-            List<Patient> patients = _patients.ToList();
-            List<Patient> sortedPatients = patients.OrderBy(patient => patient.Secondname).ToList();
-
-            foreach (Patient patient in sortedPatients)
-                patient.ShowInfo();
+            List<Patient> sortedPatients = _patients.OrderBy(patient => patient.Secondname).ToList();
+            ShowPatientsInfo(sortedPatients);
         }
 
         private void SortPatientsByName()
         {
-            List<Patient> patients = _patients.ToList();
-            List<Patient> sortedPatients = patients.OrderBy(patient => patient.Name).ToList();
-
-            foreach (Patient patient in sortedPatients)
-                patient.ShowInfo();
+            List<Patient> sortedPatients = _patients.OrderBy(patient => patient.Name).ToList();
+            ShowPatientsInfo(sortedPatients);
         }
 
         private void SortPatientsBySurname()
         {
-            List<Patient> patients = _patients.ToList();
-            List<Patient> sortedPatients = patients.OrderBy(patient => patient.Surname).ToList();
-
-            foreach (Patient patient in sortedPatients)
-                patient.ShowInfo();
+            List<Patient> sortedPatients = _patients.OrderBy(patient => patient.Surname).ToList();
+            ShowPatientsInfo(sortedPatients);
         }
 
         private void SortPatientsByAge()
         {
-            List<Patient> patients = _patients.ToList();
-            List<Patient> sortedPatients = patients.OrderBy(patient => patient.Age).ToList();
-
-            foreach (Patient patient in sortedPatients)
-                patient.ShowInfo();
+            List<Patient> sortedPatients = _patients.OrderBy(patient => patient.Age).ToList();
+            ShowPatientsInfo(sortedPatients);
         }
 
         private void ShowPatientsWithDisease()
         {
             Console.WriteLine("Введите название болезни");
             string inputedDisease = Console.ReadLine();
-            List<Patient> patients = _patients.ToList();
-            List<Patient> sortedPatients = patients.Where(patient => patient.Disease.ToLower() == inputedDisease.ToLower()).ToList();
+            List<Patient> sortedPatients = _patients.Where(patient => patient.Disease.ToLower() == inputedDisease.ToLower()).ToList();
             Console.Clear();
 
             if (sortedPatients.Count == 0)
@@ -150,7 +137,11 @@ namespace LinqTask3
             }
 
             Console.WriteLine("С данной болезнью найдены следующие пациенты:\n");
+            ShowPatientsInfo(sortedPatients);
+        }
 
+        private void ShowPatientsInfo(List<Patient> sortedPatients)
+        {
             foreach (Patient patient in sortedPatients)
                 patient.ShowInfo();
         }
