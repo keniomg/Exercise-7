@@ -1,0 +1,123 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LinqTask4
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Database database = new Database();
+            database.Administrate();
+
+        }
+    }
+
+    public class Database
+    {
+        private List<Player> _players = new List<Player>();
+        public Database()
+        {
+            _players = new List<Player>()
+            {
+                new Player("NagibaTOR", 34, 920),
+                new Player("Denis", 27, 1487),
+                new Player("KIBOROWG", 54, 1488),
+                new Player("Jest", 12, 246),
+                new Player("Kavo", 24, 492),
+                new Player("NePoNyAl", 48, 984),
+                new Player("Shmoordyak", 22, 440),
+                new Player("Never", 14, 88),
+                new Player("GonnaGive", 13, 370),
+                new Player("YoUuP", 26, 740)
+            };
+        }
+
+        public void Administrate()
+        {
+            const string CommandShowTopPlayersByLevel = "1";
+            const string CommandShowTopPlayersByPower = "2";
+            const string CommandExit = "3";
+
+            bool isContinue = true;
+
+            while (isContinue)
+            {
+                Console.WriteLine($"Вы можете выполнить следующие операции:" +
+                    $"\n{CommandShowTopPlayersByLevel} - показать топ 3 игрока по уровню" +
+                    $"\n{CommandShowTopPlayersByPower} - показать топ 3 игрока по силе" +
+                    $"\n{CommandExit} - выйти из программы");
+                string userInput = Console.ReadLine();
+                Console.Clear();
+
+                switch (userInput)
+                {
+                    case CommandShowTopPlayersByLevel:
+                        ShowTopPlayersByLevel();
+                        break;
+
+                    case CommandShowTopPlayersByPower:
+                        ShowTopPlayersByPower();
+                        break;
+
+                    case CommandExit:
+                        isContinue = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Введена неверная команда");
+                        break;
+                }
+
+                if (isContinue)
+                {
+                    Console.WriteLine("Для продолжения нажмите любую клавишу");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+
+            Console.WriteLine("Вы вышли из программы");
+        }
+
+        public void ShowTopPlayersByLevel()
+        {
+            List<Player> players = _players.ToList();
+            List<Player> sortedPlayers = players.OrderByDescending(player => player.Level).Take(3).ToList();
+            Console.WriteLine("Топ 3 игрока по уровню:\n\n");
+
+            foreach (Player player in sortedPlayers)
+                player.ShowInfo();
+        }
+
+        public void ShowTopPlayersByPower()
+        {
+            List<Player> players = _players.ToList();
+            List<Player> sortedPlayers = players.OrderByDescending(player => player.Power).Take(3).ToList();
+            Console.WriteLine("Топ 3 игрока по силе:\n\n");
+
+            foreach (Player player in sortedPlayers)
+                player.ShowInfo();
+        }
+    }
+
+    public class Player
+    {
+        public Player(string name, int level, int power)
+        {
+            Name = name;
+            Level = level;
+            Power = power;
+        }
+
+        public string Name { get; private set; }
+        public int Level { get; private set; }
+        public int Power { get; private set; }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Данные об игроке '{Name}' \nуровень: {Level}\nсила: {Power}\n");
+        }
+    }
+}
