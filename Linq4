@@ -17,6 +17,7 @@ namespace LinqTask4
     public class Database
     {
         private List<Player> _players = new List<Player>();
+
         public Database()
         {
             _players = new List<Player>()
